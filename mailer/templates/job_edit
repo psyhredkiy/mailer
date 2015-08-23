@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block job_edit %}
+<div class="row" align="center">
+<div class="form-row">
+<form  class="form-horizontal"  role="form" action="/test/jobsave/{{ job_id }}" method="post">
+ {% csrf_token %}
+  <div class="form-group">
+ {{ form }}
+  </div>
+<input type="submit" value="add job">
+</form>
+</div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,6 @@
+
+<form action="/test/jobsave/{{ job_id }}/" method="post">
+ {% csrf_token %}
+ {{ form }}
+<input type="submit" value="сохранить">
+</form>

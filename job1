@@ -1,0 +1,6 @@
+#!/bin/sh 
+Recips = " 1 " 
+Subj = " 2 " 
+Body="3" 
+FromDir="4" 
+ 

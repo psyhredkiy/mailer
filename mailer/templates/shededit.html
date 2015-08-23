@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block shed_edit %}
+<form  class="form-horizontal" action="/test/shedsavee/{{shed_id}}/" method="post">
+ {% csrf_token %}
+ {{ form }}
+<input type="submit" value="сохранить">
+</form>
+{% endblock %}

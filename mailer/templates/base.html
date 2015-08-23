@@ -1,0 +1,105 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>DIAD M@iler</title>
+
+    <!-- Bootstrap -->
+      <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <link href="/static/style.css" rel="stylesheet">
+      <link href="/static/dashboard.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+
+    <![endif]-->
+  </head>
+  <body>
+
+
+
+
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+
+      <div class="container-fluid">
+
+        <div class="navbar-header mybg">
+             <a class="navbar-brand ledger" href="#">M@iler</a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+             <br>
+             <li {% if jobs %}class="active"{% endif %}><a href="/test/viewjob/">Задачи</a></li>
+            <li {% if sheds %}class="active "{% endif %}><a href="/test/viewshed/">Планировщик</a></li>
+          </ul>
+
+          </div>
+<div class="col-sm- col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+
+          <div class="row placeholders">
+
+          </div>
+
+           {% if jobs %}
+          <h3 class="sub-header ledger">Задачи</h3>
+            {% else %}
+           <h3 class="sub-header ledger">Планировщик</h3>
+            {% endif %}
+          <br>
+          <br>
+          <div class="table-responsive">
+              {% block shededit %}
+              {% endblock %}
+              {% block viewsheds %}
+              {% endblock %}
+              {% block newshed %}
+              {% endblock %}
+              {% block job_view %}
+              {% endblock %}
+              {% block job_edit %}
+              {% endblock %}
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/docs.min.js"></script>
+    {% if modal %}
+<script type="text/javascript">
+$(window).load(function(){
+        $('#myModal1').modal('show');
+    });
+</script>
+{% endif  %}
+  </body>
+</html>
