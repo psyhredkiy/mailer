@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
 from django.shortcuts import render_to_response
-import os,sys,stat
+import os,sys,stat,subprocess
 from mailer.models import Job
 from mailer.models import Shed
 from forms import add_job_form
@@ -186,3 +186,13 @@ def shed_enable(request,shed_id):
       return redirect ('/test/viewshed/')
     else:
         return redirect ('/test/viewshed/')
+
+def run_job(request,shed_id):
+    name=Shed.objects.get(id=shed_id).job.name
+    p = os.popen('/scripts/%s' %(name),"r")
+    cmd='/scripts/%s ' %(name)
+    line = p.readline()
+    args = {}
+    args['out'] = line
+    args['cmd'] = name
+    return render_to_response("run.html",args)

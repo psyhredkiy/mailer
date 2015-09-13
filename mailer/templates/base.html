@@ -50,8 +50,8 @@
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
              <br>
-             <li {% if jobs %}class="active"{% endif %}><a href="/test/viewjob/">Задачи</a></li>
-            <li {% if sheds %}class="active "{% endif %}><a href="/test/viewshed/">Планировщик</a></li>
+             <li {% if jobs %}class="active roboto"{% endif %} class="roboto"><a href="/test/viewjob/">Задачи</a></li>
+            <li {% if sheds %}class="active roboto"{% endif %} class="roboto"><a href="/test/viewshed/">Планировщик</a></li>
           </ul>
 
           </div>
@@ -64,13 +64,20 @@
 
            {% if jobs %}
           <h3 class="sub-header ledger">Задачи</h3>
-            {% else %}
+           {% endif %}
+              {% if out %}
+          <h3 class="sub-header ledger">Ручная отправка</h3>
+           {% endif %}
+
+            {% if sheds %}
            <h3 class="sub-header ledger">Планировщик</h3>
             {% endif %}
           <br>
           <br>
           <div class="table-responsive">
               {% block shededit %}
+              {% endblock %}
+              {% block run %}
               {% endblock %}
               {% block viewsheds %}
               {% endblock %}

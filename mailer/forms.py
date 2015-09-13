@@ -15,7 +15,7 @@ class add_job_form(ModelForm):
         self.fields['body'].widget.attrs['class']='form-control '
         self.fields['fromdir'].widget.attrs['class']='form-control '
 
-#123
+
     class Meta:
         model = Job
         exclude ={'issheduled'}
