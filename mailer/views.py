@@ -199,6 +199,7 @@ def shed_enable(request,shed_id):
       cron_job = tab.new(cmd,comment=shed.job.name)
       cron_job.minute.on(m)
       cron_job.hour.on(h)
+      #1
       #writes content to crontab
       tab.write()
       return redirect ('/test/viewshed/')
