@@ -79,13 +79,14 @@
 <br>
 <table class="table table-striped table-responsive ">
 <tr>
+    <th class="roboto"></th>
     <th>№</th>
     <th class="roboto">Имя</th>
     <th class="roboto">Получатели</th>
     <th class="roboto">Тема</th>
     <th class="roboto">Тело письма</th>
     <th class="roboto">Папка</th>
-    <th class="roboto"></th>
+
 
 
 </tr>
@@ -93,12 +94,6 @@
 
 {% for Job in jobs %}
 <tr>
-    <td>{{ Job.id }}</td>
-    <td>{{ Job.name }}</td>
-    <td>{{ Job.recips }}</td>
-    <td>{{ Job.subj }}</td>
-    <td>{{ Job.body }}</td>
-    <td>{{Job.fromdir }}</td>
     <td>
         <div class="btn-group">
         <a class="btn btn-default btn-sm  " href="/test/addshed/{{ Job.id }}" ><span class="glyphicon glyphicon-time"></a>
@@ -106,6 +101,13 @@
     <a class="btn btn-default btn-sm" href="/test/remove/{{ Job.id }}"><span class="glyphicon glyphicon-remove"></span></a>
     </div>
     </td>
+    <td>{{ Job.id }}</td>
+    <td>{{ Job.name }}</td>
+    <td>{{ Job.recips }}</td>
+    <td>{{ Job.subj }}</td>
+    <td>{{ Job.body }}</td>
+    <td>{{Job.fromdir }}</td>
+
 </tr>
 {% endfor %}
 

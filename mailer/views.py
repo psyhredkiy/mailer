@@ -8,7 +8,7 @@ from forms import add_job_form
 from forms import add_shed_form
 from django.core.context_processors import csrf
 from django.core.files.base import File
-
+from crontab import CronTab
 
 
 def view_job(request,job_id=None):
@@ -121,13 +121,16 @@ def shed_save(request,job_id):
      shed.enabled=True
      shed.save()
      sid = Shed.objects.get(id=job_id)
-     f = open('/etc/cron.d/ %s_%s' %(sid.job.name,sid.id) , 'w')
-     myfile  = File(f)
-     content = 'SHELL="/bin/sh" \n%s  %s  *   *   1,2,3,4,5   xanderz /scripts/%s > /var/log/mailer/mailer.log \n' %(sid.time.minute,sid.time.hour,sid.job.name)
-     myfile.write(content)
-     f.close()
-     myfile.close()
-     #os.chmod('/var/spool/cron/ %s' %(shname), 777)
+     tab = CronTab(user='xanderz')
+     cmd = '/bin/sh /scripts/%s ' %(shed.job.name)
+     # You can even set a comment for this command
+     h = shed.time.hour
+     m = shed.time.minute
+     cron_job = tab.new(cmd,comment=shed.job.name)
+     cron_job.minute.on(m)
+     cron_job.hour.on(h)
+     #writes content to crontab
+     tab.write()
      return redirect ('/test/viewshed/')
 
 def shed_edit(request,shed_id):
@@ -147,28 +150,40 @@ def shed_save_e(request,shed_id) :
      shed.job = a.job
      #shed.enabled=True
      shed.save()
-     f = open('/etc/cron.d/ %s_%s' %(a.job.name,a.id) , 'w')
-     myfile  = File(f)
-     content = '%s  %s  *   *   1,2,3,4,5   xanderz /scripts/%s > /var/log/mailer/mailer.log \n' %(a.time.minute,a.time.hour,a.job.name)
-     myfile.write(content)
-     f.close()
-     myfile.close()
+     cmd = '/bin/sh /scripts/%s ' %(shed.job.name)
+     #удаляем из крона
+     tab = CronTab(user='xanderz')
+     cron_job = tab.find_command(cmd)
+     tab.remove_all(comment=shed.job.name)
+     #writes content to crontab
+     tab.write()
+     #добавляем в крон
+     tab = CronTab(user='xanderz')
+     # You can even set a comment for this command
+     h = shed.time.hour
+     m = shed.time.minute
+     cron_job = tab.new(cmd)
+     cron_job.minute.on(m)
+     cron_job.hour.on(h)
+     #writes content to crontab
+     tab.write()
      return redirect ('/test/viewshed/')
 
 def shed_rm(request,shed_id):
-    shed = Shed.objects.get(id=shed_id)
-    if(shed.enabled==True):
-     os.remove('/etc/cron.d/ %s_%s'%(shed.job.name,shed.id))
+     shed = Shed.objects.get(id=shed_id)
+     tab = CronTab(user='xanderz')
+     tab.remove_all(comment=shed.job.name)
+     tab.write()
      shed.delete()
-    else:
-     shed.delete()
-    return redirect ('/test/viewshed/')
+     return redirect ('/test/viewshed/')
 
 def shed_disable(request,shed_id):
     shed = Shed.objects.get(id=shed_id)
     shed.enabled=False
     shed.save()
-    os.remove('/etc/cron.d/ %s_%s'%(shed.job.name,shed.id))
+    tab = CronTab(user='xanderz')
+    tab.remove_all(comment=shed.job.name)
+    tab.write()
     return redirect ('/test/viewshed/')
 
 def shed_enable(request,shed_id):
@@ -176,13 +191,16 @@ def shed_enable(request,shed_id):
     if (shed.enabled==False):
       shed.enabled=True
       shed.save()
-      f = open('/etc/cron.d/ %s_%s' %(shed.job.name,shed.id) , 'w')
-      myfile  = File(f)
-      content = '%s  %s  *   *   1,2,3,4,5   mailer /scripts/%s > /var/log/mailer/mailer.log ' %(shed.time.minute,shed.time.hour,shed.job.name)
-      myfile.write(content)
-      f.close()
-      myfile.close()
-
+      tab = CronTab(user='xanderz')
+      cmd = '/bin/sh /scripts/%s ' %(shed.job.name)
+      # You can even set a comment for this command
+      h = shed.time.hour
+      m = shed.time.minute
+      cron_job = tab.new(cmd,comment=shed.job.name)
+      cron_job.minute.on(m)
+      cron_job.hour.on(h)
+      #writes content to crontab
+      tab.write()
       return redirect ('/test/viewshed/')
     else:
         return redirect ('/test/viewshed/')
