@@ -79,15 +79,15 @@
 <br>
 <table class="table table-striped table-responsive ">
 <tr>
-    <th class="roboto"></th>
+    <th></th>
     <th>№</th>
-    <th class="roboto">Имя</th>
-    <th class="roboto">Получатели</th>
-    <th class="roboto">Тема</th>
-    <th class="roboto">Тело письма</th>
-    <th class="roboto">Папка</th>
-
-
+    <th>Имя</th>
+    <th>Получатели</th>
+    <th>Тема</th>
+    <th>Тело письма</th>
+    <th>Папка</th>
+    <th>Файлов</th>
+    <th>Время</th>
 
 </tr>
 
@@ -96,8 +96,8 @@
 <tr>
     <td>
         <div class="btn-group">
-        <a class="btn btn-default btn-sm  " href="/test/addshed/{{ Job.id }}" ><span class="glyphicon glyphicon-time"></a>
-    <a class="btn btn-default btn-sm" href="/test/edit/{{ Job.id }}"><span class="glyphicon glyphicon-cog"></span></a>
+
+    <a class="btn btn-default btn-sm" href="/test/edit/{{ Job.id }}"><span class="glyphicon glyphicon-pencil"></span></a>
     <a class="btn btn-default btn-sm" href="/test/remove/{{ Job.id }}"><span class="glyphicon glyphicon-remove"></span></a>
     </div>
     </td>
@@ -107,10 +107,14 @@
     <td>{{ Job.subj }}</td>
     <td>{{ Job.body }}</td>
     <td>{{Job.fromdir }}</td>
-
+    <td>{{ Job.getfc }}</td>
+    {% if Job.ished %}
+    <td>{{ Job.ished }}</td>
+    {% else %}
+    <td><a  href="/test/addshed/{{ Job.id }}">Назначить</a></td>
+    {% endif %}
 </tr>
 {% endfor %}
-
 
 </table>
 {% endblock %}

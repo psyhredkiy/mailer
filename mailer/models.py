@@ -10,9 +10,19 @@ class Job(models.Model):
     body = models.CharField(max_length=150,verbose_name='Тело')
     fromdir = models.CharField(max_length=50,verbose_name='Папка')
 
+    def getfc(self):
+      job = Job.objects.get(id=self.id)
+      o = os.popen('ls -1 %s | wc -l'%(job.fromdir))
+      cnt = o.read()
+      return cnt
+    def ished(self):
+      jb = Job.objects.get(id=self.id)
+      shed = Shed.objects.get(job=jb).time
+      return shed
 
 class Shed (models.Model):
     job = models.ForeignKey(Job)
     enabled=models.BooleanField()
     time = models.TimeField()
+
 

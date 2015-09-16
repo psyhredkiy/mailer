@@ -20,7 +20,6 @@ def view_job(request,job_id=None):
      'body' :Job.objects.get(id=job_id).body,
      'fromdir' :Job.objects.get(id=job_id).fromdir
       },)
-
      args={}
      args['id'] = job_id
      args['modal'] = True
@@ -39,7 +38,7 @@ def view_job(request,job_id=None):
 
     return  render_to_response('view.html',args)
 
-# Create your views here.
+
 def add_Job(request):
     add_job = add_job_form
     args = {}
@@ -95,6 +94,9 @@ def job_edit(request,job_id):
 
 def job_rm(request,job_id):
     a = Job.objects.get(id=job_id)
+    tab = CronTab(user='xanderz')
+    tab.remove_all(comment=a.name)
+    tab.write()
     os.remove('/scripts/%s'%(a.name))
     a.delete()
     return redirect ('/test/viewjob/')
@@ -108,8 +110,11 @@ def add_shed(request,job_id):
     return render_to_response("newshed.html",args)
 
 def shed_view(request):
+
     args = {}
     args['sheds']  = Shed.objects.all()
+
+    
     return render_to_response("viewsheds.html",args)
 
 
@@ -120,16 +125,14 @@ def shed_save(request,job_id):
      shed.job = Job.objects.get(id=job_id)
      shed.enabled=True
      shed.save()
-     sid = Shed.objects.get(id=job_id)
      tab = CronTab(user='xanderz')
      cmd = '/bin/sh /scripts/%s ' %(shed.job.name)
-     # You can even set a comment for this command
      h = shed.time.hour
      m = shed.time.minute
      cron_job = tab.new(cmd,comment=shed.job.name)
+     cron_job.dow.on(1,2,3,4,5)
      cron_job.minute.on(m)
      cron_job.hour.on(h)
-     #writes content to crontab
      tab.write()
      return redirect ('/test/viewshed/')
 
@@ -148,24 +151,18 @@ def shed_save_e(request,shed_id) :
      form = add_shed_form(request.POST,instance=a)
      shed = form.save(commit=False)
      shed.job = a.job
-     #shed.enabled=True
      shed.save()
      cmd = '/bin/sh /scripts/%s ' %(shed.job.name)
-     #удаляем из крона
      tab = CronTab(user='xanderz')
-     cron_job = tab.find_command(cmd)
      tab.remove_all(comment=shed.job.name)
-     #writes content to crontab
      tab.write()
-     #добавляем в крон
      tab = CronTab(user='xanderz')
-     # You can even set a comment for this command
      h = shed.time.hour
      m = shed.time.minute
      cron_job = tab.new(cmd)
+     cron_job.dow.on(1,2,3,4,5)
      cron_job.minute.on(m)
      cron_job.hour.on(h)
-     #writes content to crontab
      tab.write()
      return redirect ('/test/viewshed/')
 
@@ -193,14 +190,12 @@ def shed_enable(request,shed_id):
       shed.save()
       tab = CronTab(user='xanderz')
       cmd = '/bin/sh /scripts/%s ' %(shed.job.name)
-      # You can even set a comment for this command
       h = shed.time.hour
       m = shed.time.minute
       cron_job = tab.new(cmd,comment=shed.job.name)
+      cron_job.dow.on(1,2,3,4,5)
       cron_job.minute.on(m)
       cron_job.hour.on(h)
-      #1
-      #writes content to crontab
       tab.write()
       return redirect ('/test/viewshed/')
     else:
@@ -209,7 +204,6 @@ def shed_enable(request,shed_id):
 def run_job(request,shed_id):
     name=Shed.objects.get(id=shed_id).job.name
     p = os.popen('/scripts/%s' %(name),"r")
-    cmd='/scripts/%s ' %(name)
     line = p.readline()
     args = {}
     args['out'] = line
