@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^shdis/(?P<shed_id>\d+)/$',"mailer.views.shed_disable"),
     url(r'^shen/(?P<shed_id>\d+)/$',"mailer.views.shed_enable"),
     url(r'^run/(?P<shed_id>\d+)/$',"mailer.views.run_job"),
+    url(r'^lr/(?P<name>\w+)/(?P<day>\d+)/(?P<month>\d+)/(?P<year>\d+)/(?P<hour>\d+)/(?P<minute>\d+)/$',"mailer.views.lastrun"),
 
 
 

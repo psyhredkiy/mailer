@@ -24,5 +24,6 @@ class Shed (models.Model):
     job = models.ForeignKey(Job)
     enabled=models.BooleanField()
     time = models.TimeField()
+    lastrun = models.CharField(max_length=10)
 
 

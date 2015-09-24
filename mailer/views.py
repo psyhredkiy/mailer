@@ -209,3 +209,9 @@ def run_job(request,shed_id):
     args['out'] = line
     args['cmd'] = name
     return render_to_response("run.html",args)
+
+def lastrun(request,name,day,month,year,hour,minute):
+    nm = Job.objects.get(name=name)
+    shed = Shed.objects.get(job=nm)
+    shed.lastrun = day+'.'+month+'.'+year+'-'+hour+':'+minute
+    shed.save()
