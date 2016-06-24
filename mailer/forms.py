@@ -4,6 +4,7 @@ from django import forms
 from models import Job
 from models import Shed
 
+
 class add_job_form(ModelForm):
 
     def __init__(self,*args, **kwargs):

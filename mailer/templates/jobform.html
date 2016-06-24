@@ -1,0 +1,65 @@
+{% extends 'main.html' %}
+{% block jobform %}
+<div id="page-wrapper" xmlns="http://www.w3.org/1999/html">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="page-header"> <span class="text-info fa fa-edit fa-fw">&nbsp;{{job_name}}</span></h3>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <form role="form"  action="/mailer/jobsave/{{ job_id }}" method="post" >
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                         <button type="submit" class="btn btn-default btn-sm">Сохранить</button>
+                         <a href="/mailer/viewjob/" class="btn btn-default btn-sm">Отмена</a>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+
+                                         <div class="form-group">
+                                        {% csrf_token %}
+                                        {{ form.name.label }}
+                                        {{ form.name }}
+                                          <p class="help-block">{{form.name.errors}}</p>
+                                        {{ form.fromdir.label }}
+                                        {{ form.fromdir }}
+                                         <p class="help-block">{{ form.fromdir.errors }}</p>
+
+                                         </div>
+
+                                </div>
+                                <!-- /.col-lg-6 (nested) -->
+                                <div class="col-lg-6">
+
+                                         <div class="form-group">
+                                        {{ form.recips.label }}
+                                        {{ form.recips }}
+                                          <p class="help-block">{{ form.recips.errors }}</p>
+                                        {{ form.subj.label }}
+                                        {{ form.subj}}
+                                         <p class="help-block">{{ form.subj.errors }}</p>
+                                        {{ form.body.label }}
+                                        {{ form.body }}
+                                        <p class="help-block">{{ form.body.errors }}</p>
+                                           </div>
+
+                                </div>
+                                <!-- /.col-lg-6 (nested) -->
+                            </div>
+                            <!-- /.row (nested) -->
+                            </table>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+{% endblock %}

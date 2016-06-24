@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for sender project.
 
@@ -37,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mailer',
+    'mailer.templatetags'
 
 
 )
@@ -49,6 +51,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
+
 
 ROOT_URLCONF = 'sender.urls'
 
@@ -88,3 +92,12 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'mailer/templates'),
 
 )
+
+#Настройки мэйлера
+
+#Пользователь Cron
+CRONTAB_USER= 'main'
+#Путь к папке с скриптами
+SCRIPTS_DIR = '/scripts'
+#Путь к папке с прайсами
+SAMBA_DIR = '/Samba'
