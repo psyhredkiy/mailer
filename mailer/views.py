@@ -78,7 +78,7 @@ def job_save(request):
       myfile.write(content)
       f.close()
       myfile.close()
-      os.chmod('%s/%s' %(settings.SCRIPTS_DIR,Job.name), 777)
+      os.chmod('%s/%s' %(settings.SCRIPTS_DIR,Job.name),stat.S_IRWXU)
       return redirect ('/mailer/viewjob/')
 
 def job_save_e(request,job_id):
@@ -86,7 +86,7 @@ def job_save_e(request,job_id):
       a = Job.objects.get(id=job_id)
       os.remove('/scripts/%s' %(a.name))
       form = add_job_form(request.POST,instance=a)
-      job = form.save()
+      job = form.save(request.POST)
       f = open('%s/%s' %(settings.SCRIPTS_DIR,a.name), 'w')
       myfile = File(f)
       content = '#!/bin/sh \nRecips=" %s " \nSubj=" %s " \nBody="%s" \nFromDir="%s" \n source sys/mailer.sh \n  ' % ( a.recips , a.subj, a.body ,a.fromdir )

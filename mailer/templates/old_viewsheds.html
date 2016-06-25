@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block viewsheds %}
+<button class="btn btn-success btn-sm roboto" ><span class="glyphicon glyphicon-forward">Отправить все</button>
+    <br>
+    <br>
+<table class="table table-striped table-responsive  ">
+<tr>
+    <th></th>
+    <th>№</th>
+    <th>Имя</th>
+    <th>Время</th>
+    <th>Последний запуск</th>
+    <th>В ручную</th>
+
+
+
+
+</tr>
+
+
+{% for Shed in sheds %}
+    {% if Shed.enabled %}
+<tr>
+    {% else %}
+<tr class="bg-danger">
+{% endif %}
+    <td>
+        <div class="btn-group">
+            <a class="btn btn-default btn-sm" href="/test/shededit/{{ Shed.id  }}"><span class="glyphicon glyphicon-pencil"></a>
+            <a class="btn btn-default btn-sm" href="/test/shremove/{{Shed.id }}"><span class="glyphicon glyphicon-remove"></span></a>
+             {% if Shed.enabled %}
+            <a class="btn btn-default btn-sm" href="/test/shdis/{{ Shed.id  }}"><span class="glyphicon glyphicon-off"></a>
+        {% else %}
+       <a class="btn btn-default btn-sm " href="/test/shen/{{Shed.id}}"><span class="glyphicon glyphicon-off"></a>
+        {% endif %}
+
+    </div>
+    </td>
+    <td>{{ Shed.id }}</td>
+    <td>{{ Shed.job.name }}</td>
+    <td>{{ Shed.time }}</td>
+    <td>{{ Shed.lastrun }}</td>
+    <td><a class="btn btn-default btn-sm" href="/test/run/{{Shed.id }}"><span class="glyphicon glyphicon-send"></span></a></td>
+
+</tr>
+{% endfor %}
+
+
+</table>
+
+
+{% endblock %}

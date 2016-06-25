@@ -3,11 +3,19 @@
 <div id="page-wrapper" xmlns="http://www.w3.org/1999/html">
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="page-header"> <span class="text-info fa fa-edit fa-fw">&nbsp;{{job_name}}</span></h3>
+                    {% if job_name %}
+                    <h3 class="page-header"> <span class="text-primary fa fa-edit fa-fw">&nbsp;{{job_name}}</span></h3>
+                    {% else %}
+                    <h3 class="page-header"> <span class="text-primary fa fa-edit fa-fw">&nbsp;Новое&nbsp;задание</span></h3>
+                    {% endif %}
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-            <form role="form"  action="/mailer/jobsave/{{ job_id }}" method="post" >
+             {% if job_name %}
+             <form role="form"  action="/mailer/jobsavee/{{ job_id }}/" method="post" >
+              {% else %}
+            <form role="form"  action="/mailer/jobsave/{{ job_id }}/" method="post" >
+             {% endif %}
             <!-- /.row -->
             <div class="row">
                 <div class="col-lg-12">
